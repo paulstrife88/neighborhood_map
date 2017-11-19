@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Neighborhood Map</title>
+
+
+	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="static/js/knockout-3.4.2.js"></script>
+	
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="menu">
+			<input data-bind="textInput: searchString" />
+			<ul data-bind="foreach: locations">
+				<li data-bind="text: name"></li>
+			</ul>
+		</div>
+
+		<div id="map">
+			<p>ciao</p>
+		</div>
+
+		<div class="clear"></div>
+	</div>
+
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrJOEG7IiV5A5L-eVqBfuSQmk8pNTxe_w&callback=initMap"></script>
+    <script src="static/js/app.js"></script>
+</body>
+</html>
