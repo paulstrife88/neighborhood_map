@@ -5,6 +5,9 @@
 
 
 	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="static/js/knockout-3.4.2.js"></script>
 	
@@ -13,14 +16,27 @@
 <body>
 	<div id="wrapper">
 		<div id="menu">
-			<input data-bind="textInput: searchString" />
-			<ul data-bind="foreach: locations">
-				<li data-bind="text: name"></li>
+			<ul class="list-head">
+				<li class="title">
+					<i class="material-icons md-36 md-light">dehaze</i>
+					<span><h2>Neighborhood Map</h2></span>
+				</li>
+				<li class="search-bar">
+					<input data-bind="textInput: searchString" />
+				</li>
+			</ul>
+			<ul class="list-content" data-bind="foreach: searchResults">
+				<li data-bind="click: $parent.bounceIt">
+					<i class="material-icons md-36 md-light">list</i>
+					<span data-bind="text: name"></span>
+				</li>
+				<li class="location-info" data-bind="visible: $data.showLocationDetails">
+					<span data-bind="html: $parent.venues"></span>
+				</li>
 			</ul>
 		</div>
 
 		<div id="map">
-			<p>ciao</p>
 		</div>
 
 		<div class="clear"></div>
