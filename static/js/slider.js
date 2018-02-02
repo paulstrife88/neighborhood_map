@@ -11,7 +11,7 @@ function toogleMenu() {
 		for (var item of elements) {
 			item.style.display = "flex";
 		}
-		document.getElementById("menu").style.width = "30%";
-		document.getElementById("map").style.width = "70%";
+		document.getElementById("menu").style.width = "25%";
+		document.getElementById("map").style.width = "75%";
 	}
 }
