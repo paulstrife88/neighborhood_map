@@ -22,14 +22,19 @@ function Location(location) {
 	self.name = location.name;
 	self.location = location.location;
 	self.visible = location.visible;
-	self.venues = "<div class=\"info-windows\">Now Loading...</div>";
+	self.venues = ko.observable('<div class=\"info-windows\">Now Loading...</div>');
+
+	self.updateVenues = function(marker) {
+		self.venues(getVenues(marker.position));
+		marker.infowindow.setContent(self.venues());
+	}
 }
 
 
 function NeighborhoodMap() {
 	var self = this;
 
-	self.searchString = ko.observable("");
+	self.searchString = ko.observable('');
 	self.locations = ko.observableArray([]);
 
 	presetLocations.forEach(function(location) {
@@ -54,10 +59,6 @@ function NeighborhoodMap() {
 		var marker = markers.find(x => x.title == location.name);
 		bounceMarker(marker);
 	};
-
-	self.venues = ko.computed(function() {
-		console.log(self);
-	});
 }
 
 var NM = new NeighborhoodMap();
@@ -93,13 +94,13 @@ function formatVenuesInfo(data) {
 	var photoURL = prefix + size + suffix;
 	var hours = venue.venue.hours.status;
 	if (typeof hours == 'undefined') {
-		hours = "";
+		hours = '';
 	}
 	var closed = venue.venue.hours.isOpen;
 	var address = venue.venue.location.address;
 	var crossStreet = venue.venue.location.crossStreet;
 	if (typeof crossStreet == 'undefined') {
-		crossStreet = "";
+		crossStreet = '';
 	}
 	var location = address + crossStreet;
 	
@@ -116,9 +117,9 @@ function formatVenuesInfo(data) {
 function addInfoWindow() {
 	markers.forEach(function(marker) {
 		var location = NM.locations().find(x => x.name == marker.title);
-		location.venues = getVenues(marker.position);
+		//location.venues = getVenues(marker.position);
 		marker.infowindow = new google.maps.InfoWindow({
-			content: location.venues
+			content: location.venues()
 		});
 
 		marker.infowindow.addListener('closeclick', function() {
@@ -142,17 +143,18 @@ function showMarkers(loc) {
 }
 
 function bounceMarker(marker) {
+	var location = NM.locations().find(x => x.name == marker.title);
 	if (marker.getAnimation() !== null) {
 		marker.setAnimation(null);
 		marker.infowindow.close();
 	} else {
+		location.updateVenues(marker);
 		marker.setAnimation(google.maps.Animation.BOUNCE);
 		marker.infowindow.open(map, marker);
 	}
 }
 
 function getVenues(location) {
-	console.log('called');
 	var info = "";
 	$.ajax({
 	 	async: false,
@@ -170,6 +172,16 @@ function getVenues(location) {
 		},
 		success: function(data) {
 			info = formatVenuesInfo(data);
+		},
+		error: function(xhr, status, error) {
+			console.log('XHR: ');
+			console.log(xhr);
+			console.log('Status: ');
+			console.log(status);
+			console.log('Error: ');
+			console.log(error);
+			alert('An error has occured, please check the browser console (F12)');
+			info = '<div class=\"info-windows\">Couldn\'t load the information</div>';
 		}
 	});
 	 return info;
