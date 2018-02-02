@@ -7,64 +7,76 @@ body, html, #wrapper {
 	color: #ffffff;
 }
 
-@media screen and (min-width: 769px) {
-	#menu, #map {
-		height: 100%;
-		margin: 0;
-		padding: 0;
-	}
-
-	#menu {
-		width: 30%;
-		float: left;
-		background-color: #134f80;
-	}
-
-	#map {
-		width: 70%;
-		float: left;
-	}
+#menu, #map {
+	height: 95%;
+	margin: 0;
+	padding: 0;
 }
 
-@media screen and (max-width: 768px) {
-	#menu, #map {
-		margin: 0;
-		padding: 0;
-		width: : 100%;
-	}
+#menu {
+	height: calc(100% - 50px);
+	width: 0%;
+	float: left;
+	background-color: #134f80;	
+}
 
-	#menu {
-		height: 10%;
-		background-color: #134f80;
-	}
+#map {
+	width: 100%;
+	height: calc(100% - 50px);
+	float: left;
+	background-color: #cccccc;	
+}
 
-	#map {
-		width: 70%;
-	}
+.header {
+	display: flex;
+	flex-direction: row;
+	height: 50px;
+	width: 100%;
+	background-color: #134f80;
+	padding: 0;
+	margin: 0;	
+	list-style: none;
+}
+
+.header li {
+	text-align: center;
+	height: 100%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.header li:first-child {
+	width: 5%;
+	line-height: 70px;
+}
+
+.header li:last-child {
+	width: 95%;
+	line-height: 50px;
+}
+
+.title h2 {
+	padding: 0;
+	margin: 0;
+	display: inline;
+}
+
+.hide {
+	display: none;
 }
 
 .list-content, .list-head {
 	list-style: none;
 	display: flex;
 	flex-direction: column;
+	flex: 1;
+	border-top: 1px solid black;
 	margin: 0;
 	padding-right: 2%;
 	padding-left: 2%;
 }
 
-.title span {
-	padding-left: 5%;
-}
-.search-bar {
-	justify-content: center;
-}
-
-.search-bar input {
-	width: 90%;
-	line-height: 2;
-}
-
-li {
+.list-content li {
 	border-bottom: 1px solid black;
 	display: flex;
 	flex: 1;
@@ -73,8 +85,19 @@ li {
 	padding-bottom: 2%;
 }
 
-li span {
+.list-content li span {
 	margin-left: 2%;
+}
+
+.search-bar {
+	justify-content: center;
+	padding-top: 2%;
+	padding-bottom: 2%;
+}
+
+.search-bar input {
+	width: 90%;
+	line-height: 2;
 }
 
 .location-info {
@@ -92,6 +115,11 @@ li span {
 .info-windows h1, .info-windows h3 {
 	margin: 0;
 	padding: 0;
+}
+
+.toggle {
+	width: 50px;
+	text-align: center;
 }
 
 .material-icons.md-light {
