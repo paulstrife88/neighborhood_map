@@ -4,7 +4,7 @@
 	<title>Neighborhood Map</title>
 
 
-	<link rel="stylesheet" type="text/css" href="static/css/mobile.css">
+	<link rel="stylesheet" type="text/css" href="static/css/main2.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -18,17 +18,15 @@
 		<div id="menu">
 			<ul class="list-head">
 				<li class="title">
-					<span><h2>Neighborhood Map</h2></span>
+					<a href="#"><i class="material-icons md-36 md-light toggle" onclick="toogleMenu()">dehaze</i></a>
+					<span class="hide"><h2>Neighborhood Map</h2></span>
 				</li>
-				<li class="search-bar">
+				<li class="search-bar hide">
 					<input data-bind="textInput: searchString" />
-				</li>
-				<li>
-					<i class="material-icons md-36 md-light mobile" onclick="toogleMenu()">dehaze</i>
 				</li>
 			</ul>
 			<ul class="list-content" data-bind="foreach: searchResults">
-				<li data-bind="click: $parent.bounceIt">
+				<li class="hide" data-bind="click: $parent.bounceIt">
 					<i class="material-icons md-36 md-light">list</i>
 					<span data-bind="text: name"></span>
 				</li>

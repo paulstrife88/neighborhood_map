@@ -116,7 +116,7 @@ function formatVenuesInfo(data) {
 function addInfoWindow() {
 	markers.forEach(function(marker) {
 		var location = NM.locations().find(x => x.name == marker.title);
-		location.venues = getVenues(marker.position);
+		//location.venues = getVenues(marker.position);
 		marker.infowindow = new google.maps.InfoWindow({
 			content: location.venues
 		});
