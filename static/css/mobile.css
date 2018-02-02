@@ -7,26 +7,6 @@ body, html, #wrapper {
 	color: #ffffff;
 }
 
-@media screen and (min-width: 769px) {
-	#menu, #map {
-		height: 100%;
-		margin: 0;
-		padding: 0;
-	}
-
-	#menu {
-		width: 30%;
-		float: left;
-		background-color: #134f80;
-	}
-
-	#map {
-		width: 70%;
-		float: left;
-	}
-}
-
-@media screen and (max-width: 768px) {
 	#menu, #map {
 		margin: 0;
 		padding: 0;
@@ -34,48 +14,58 @@ body, html, #wrapper {
 	}
 
 	#menu {
-		height: 10%;
 		background-color: #134f80;
 	}
 
-	#map {
-		width: 70%;
+	.list-head {
+		height: 100%;
+		width: 100%;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
-}
 
-.list-content, .list-head {
+	.list-head h1, .list-head h2 {
+		padding: 0;
+		margin: 0;
+	}
+
+	.list-head li {
+		border-bottom: 1px solid black;
+		display: flex;
+		flex: 1;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		justify-content: center;
+		height: 29px;
+	}
+
+	.search-bar input {
+		width: 90%;
+		line-height: 1;
+	}
+
+	#map {
+		width: 100%;
+		height: calc(100% - 150px);
+	}
+
+.list-content {
 	list-style: none;
-	display: flex;
-	flex-direction: column;
-	margin: 0;
-	padding-right: 2%;
-	padding-left: 2%;
+	display: none;
+	padding: 0;
+	height: 300px;
 }
 
-.title span {
-	padding-left: 5%;
-}
-.search-bar {
-	justify-content: center;
-}
-
-.search-bar input {
-	width: 90%;
-	line-height: 2;
-}
-
-li {
+.list-content li {
 	border-bottom: 1px solid black;
 	display: flex;
 	flex: 1;
 	align-items: center;
-	padding-top: 2%;
-	padding-bottom: 2%;
+	justify-content: center;
+	height: 29px;
 }
 
-li span {
-	margin-left: 2%;
-}
 
 .location-info {
 	background-color: #5f9ea0;

@@ -4,7 +4,7 @@
 	<title>Neighborhood Map</title>
 
 
-	<link rel="stylesheet" type="text/css" href="static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="static/css/mobile.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -18,20 +18,19 @@
 		<div id="menu">
 			<ul class="list-head">
 				<li class="title">
-					<i class="material-icons md-36 md-light">dehaze</i>
 					<span><h2>Neighborhood Map</h2></span>
 				</li>
 				<li class="search-bar">
 					<input data-bind="textInput: searchString" />
+				</li>
+				<li>
+					<i class="material-icons md-36 md-light mobile" onclick="toogleMenu()">dehaze</i>
 				</li>
 			</ul>
 			<ul class="list-content" data-bind="foreach: searchResults">
 				<li data-bind="click: $parent.bounceIt">
 					<i class="material-icons md-36 md-light">list</i>
 					<span data-bind="text: name"></span>
-				</li>
-				<li class="location-info" data-bind="visible: $data.showLocationDetails">
-					<span data-bind="html: $parent.venues"></span>
 				</li>
 			</ul>
 		</div>
@@ -44,5 +43,6 @@
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrJOEG7IiV5A5L-eVqBfuSQmk8pNTxe_w&callback=initMap"></script>
     <script src="static/js/app.js"></script>
+    <script src="static/js/slider.js"></script>
 </body>
 </html>

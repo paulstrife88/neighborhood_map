@@ -22,33 +22,14 @@ function Location(location) {
 	self.name = location.name;
 	self.location = location.location;
 	self.visible = location.visible;
-	self.venues = "Now Loading...";
-
-	self.showLocationDetails = ko.observable(false);
-
-	self.toggleDetails = function() {
-		if (self.showLocationDetails()) {
-			self.showLocationDetails(false);
-		} else {
-			self.showLocationDetails(true);
-		}
-	}
+	self.venues = "<div class=\"info-windows\">Now Loading...</div>";
 }
 
 
 function NeighborhoodMap() {
 	var self = this;
+
 	self.searchString = ko.observable("");
-	/*
-	self.locations = ko.computed(function() {
-		var locations = [];
-		presetLocations.forEach(function(location) {
-			var loc = new Location(location);
-			locations.push(loc);
-		});
-		return locations;
-	});
-	*/
 	self.locations = ko.observableArray([]);
 
 	presetLocations.forEach(function(location) {
@@ -72,9 +53,6 @@ function NeighborhoodMap() {
 	self.bounceIt =  function(location) {
 		var marker = markers.find(x => x.title == location.name);
 		bounceMarker(marker);
-		self.locations()[0].venues = "ciao";
-		console.log(location);
-		location.toggleDetails();
 	};
 
 	self.venues = ko.computed(function() {
@@ -138,25 +116,19 @@ function formatVenuesInfo(data) {
 function addInfoWindow() {
 	markers.forEach(function(marker) {
 		var location = NM.locations().find(x => x.name == marker.title);
-		console.log(location);
-		var infowindow = new google.maps.InfoWindow({
-			// content: getVenues(marker.position)
+		location.venues = getVenues(marker.position);
+		marker.infowindow = new google.maps.InfoWindow({
 			content: location.venues
 		});
 
-		infowindow.addListener('closeclick', function() {
+		marker.infowindow.addListener('closeclick', function() {
 			marker.setAnimation(null);
 		});
 
 		marker.addListener('click', function() {
-			populateInfoWindow(marker, infowindow);
 			bounceMarker(marker);
 		});
 	})
-}
-
-function populateInfoWindow(marker, infowindow) {
-	infowindow.open(map, marker);
 }
 
 function showMarkers(loc) {
@@ -172,14 +144,15 @@ function showMarkers(loc) {
 function bounceMarker(marker) {
 	if (marker.getAnimation() !== null) {
 		marker.setAnimation(null);
+		marker.infowindow.close();
 	} else {
 		marker.setAnimation(google.maps.Animation.BOUNCE);
+		marker.infowindow.open(map, marker);
 	}
 }
 
 function getVenues(location) {
 	console.log('called');
-	console.log(location);
 	var info = "";
 	$.ajax({
 	 	async: false,
@@ -190,7 +163,7 @@ function getVenues(location) {
 			client_id: CLIENT_ID,
 			client_secret: CLIENT_SECRET,
 			v: '20170801',
-			ll: location.lat + ', ' + location.lng,
+			ll: location.lat() + ', ' + location.lng(),
 			section: 'topPicks',
 			venuePhotos: 1,
 			limit: 1
