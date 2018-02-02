@@ -4,8 +4,8 @@ function toogleMenu() {
 		for (var item of elements) {
 			item.style.display = "none";
 		}
-		document.getElementById("menu").style.width = "5%";
-		document.getElementById("map").style.width = "95%";
+		document.getElementById("menu").style.width = "0%";
+		document.getElementById("map").style.width = "100%";
 	}
 	else {
 		for (var item of elements) {
