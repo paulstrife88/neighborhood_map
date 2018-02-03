@@ -1,3 +1,4 @@
+// Show and hide the sidebar containeing the search bar and locations list
 function toogleMenu() {
 	var elements = document.getElementsByClassName("hide");
 	if (getComputedStyle(elements[0]).display != "none") {
