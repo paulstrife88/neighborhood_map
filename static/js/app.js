@@ -1,3 +1,4 @@
+// Initialize the global variables needed throughout the application
 var map;
 var markers = [];
 var presetLocations = [
@@ -15,7 +16,7 @@ var presetLocations = [
 var CLIENT_ID='UGIXXZODUTYNTERNBXEQ3YG0WDU2GXYWHNP1OVSQWUCE0AJG'
 var CLIENT_SECRET='5FZ2BI1N312UTLYZ0A2LCUPGW05OY31PWEB0WHXVLHQXZOGO'
 
-
+// A model to store the information of each location
 function Location(location) {
 	var self = this;
 
@@ -24,13 +25,15 @@ function Location(location) {
 	self.visible = location.visible;
 	self.venues = ko.observable('<div class=\"info-windows\">Now Loading...</div>');
 
+	// Update the venues information with the Foursquare API
 	self.updateVenues = function(marker) {
 		self.venues(getVenues(marker.position));
 		marker.infowindow.setContent(self.venues());
 	}
 }
 
-
+// A view model to handle the locations shown on the map and filter them 
+// with the result from the search bar input
 function NeighborhoodMap() {
 	var self = this;
 
@@ -61,9 +64,11 @@ function NeighborhoodMap() {
 	};
 }
 
+// Initialize Knockout
 var NM = new NeighborhoodMap();
 ko.applyBindings(NM);
 
+// Initialize the map at a given location and create the markers for each location.
 function initMap() {
 	var tokyo = presetLocations[0].location;
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -84,6 +89,51 @@ function initMap() {
 	addInfoWindow();
 }
 
+// Initialize the infowindow DOM for each of the markers
+function addInfoWindow() {
+	markers.forEach(function(marker) {
+		var location = NM.locations().find(x => x.name == marker.title);
+		marker.infowindow = new google.maps.InfoWindow({
+			content: location.venues()
+		});
+
+		marker.infowindow.addListener('closeclick', function() {
+			marker.setAnimation(null);
+		});
+
+		marker.addListener('click', function() {
+			bounceMarker(marker);
+		});
+	})
+}
+
+// Show the markers on the map
+function showMarkers(loc) {
+	markers.forEach(function(marker) {
+		if (loc.find(x => x.name == marker.title).visible) {
+			marker.setMap(map);
+		} else {
+			marker.setMap(null);
+		}
+	});
+}
+
+// Animate a marker when it is clicked and open the infowindow of it
+// trying to update the contents with the Foursquare API
+function bounceMarker(marker) {
+	var location = NM.locations().find(x => x.name == marker.title);
+	if (marker.getAnimation() !== null) {
+		marker.setAnimation(null);
+		marker.infowindow.close();
+	} else {
+		location.updateVenues(marker);
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		marker.infowindow.open(map, marker);
+	}
+}
+
+// Use the output received from the API call to Foursquare and format it
+// to be used in an HTML DOM element.
 function formatVenuesInfo(data) {
 	var venue = data.response.groups[0].items[0];
 	var name = venue.venue.name;
@@ -114,46 +164,8 @@ function formatVenuesInfo(data) {
 	return output;
 }
 
-function addInfoWindow() {
-	markers.forEach(function(marker) {
-		var location = NM.locations().find(x => x.name == marker.title);
-		//location.venues = getVenues(marker.position);
-		marker.infowindow = new google.maps.InfoWindow({
-			content: location.venues()
-		});
-
-		marker.infowindow.addListener('closeclick', function() {
-			marker.setAnimation(null);
-		});
-
-		marker.addListener('click', function() {
-			bounceMarker(marker);
-		});
-	})
-}
-
-function showMarkers(loc) {
-	markers.forEach(function(marker) {
-		if (loc.find(x => x.name == marker.title).visible) {
-			marker.setMap(map);
-		} else {
-			marker.setMap(null);
-		}
-	});
-}
-
-function bounceMarker(marker) {
-	var location = NM.locations().find(x => x.name == marker.title);
-	if (marker.getAnimation() !== null) {
-		marker.setAnimation(null);
-		marker.infowindow.close();
-	} else {
-		location.updateVenues(marker);
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-		marker.infowindow.open(map, marker);
-	}
-}
-
+// An AJAX call to the Foursquare API to get the first top pick venue information
+// for a given location
 function getVenues(location) {
 	var info = "";
 	$.ajax({
