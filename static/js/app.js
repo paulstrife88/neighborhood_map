@@ -12,9 +12,9 @@ var presetLocations = [
 	{name: 'Tokyo Tower', location: {lat: 35.658582, lng: 139.745429}, visible: true},
 	{name: 'Senso-ji', location: {lat: 35.714767, lng: 139.796653}, visible: true},
 	{name: 'Tokyo Skytree', location: {lat: 35.710063, lng: 139.810697}, visible: true}
-]
-var CLIENT_ID='UGIXXZODUTYNTERNBXEQ3YG0WDU2GXYWHNP1OVSQWUCE0AJG'
-var CLIENT_SECRET='5FZ2BI1N312UTLYZ0A2LCUPGW05OY31PWEB0WHXVLHQXZOGO'
+];
+var CLIENT_ID='UGIXXZODUTYNTERNBXEQ3YG0WDU2GXYWHNP1OVSQWUCE0AJG';
+var CLIENT_SECRET='5FZ2BI1N312UTLYZ0A2LCUPGW05OY31PWEB0WHXVLHQXZOGO';
 
 // A model to store the information of each location
 function Location(location) {
@@ -29,7 +29,7 @@ function Location(location) {
 	self.updateVenues = function(marker) {
 		self.venues(getVenues(marker.position));
 		marker.infowindow.setContent(self.venues());
-	}
+	};
 }
 
 // A view model to handle the locations shown on the map and filter them 
@@ -82,7 +82,7 @@ function initMap() {
 			title: location.name,
 			animation: google.maps.Animation.DROP
 		});
-		markers.push(marker)
+		markers.push(marker);
 	});
 
 	showMarkers(presetLocations);
@@ -104,7 +104,7 @@ function addInfoWindow() {
 		marker.addListener('click', function() {
 			bounceMarker(marker);
 		});
-	})
+	});
 }
 
 // Show the markers on the map
@@ -167,7 +167,7 @@ function formatVenuesInfo(data) {
 // An AJAX call to the Foursquare API to get the first top pick venue information
 // for a given location
 function getVenues(location) {
-	var info = "";
+	var info = '';
 	$.ajax({
 	 	async: false,
 		type: 'GET',
@@ -196,5 +196,5 @@ function getVenues(location) {
 			info = '<div class=\"info-windows\">Couldn\'t load the information</div>';
 		}
 	});
-	 return info;
+	return info;
 }
