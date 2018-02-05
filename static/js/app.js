@@ -80,7 +80,8 @@ function initMap() {
 		var marker = new google.maps.Marker({
 			position: location.location,
 			title: location.name,
-			animation: google.maps.Animation.DROP
+			animation: google.maps.Animation.DROP,
+			map: map
 		});
 		markers.push(marker);
 	});
@@ -89,8 +90,14 @@ function initMap() {
 	addInfoWindow();
 }
 
-// Callback function in case Google Maps fails to load
+// Callback function in case Google Maps fails to authenticate
 function gm_authFailure() {
+	alert('An authentication error has occured while trying to load the Google Maps API. ' +
+		'Please check the browser\'s JavaScript Console (F12) for further information.');
+}
+
+// Callback function in case Google Maps fails to load
+function mapErr() {
 	alert('An error has occured while trying to load the Google Maps API. ' +
 		'Please check the browser\'s JavaScript Console (F12) for further information.');
 }
@@ -117,9 +124,9 @@ function addInfoWindow() {
 function showMarkers(loc) {
 	markers.forEach(function(marker) {
 		if (loc.find(x => x.name == marker.title).visible) {
-			marker.setMap(map);
+			marker.setVisible(true);
 		} else {
-			marker.setMap(null);
+			marker.setVisible(false);
 		}
 	});
 }
