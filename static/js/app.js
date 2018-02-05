@@ -89,6 +89,12 @@ function initMap() {
 	addInfoWindow();
 }
 
+// Callback function in case Google Maps fails to load
+function gm_authFailure() {
+	alert('An error has occured while trying to load the Google Maps API. ' +
+		'Please check the browser\'s JavaScript Console (F12) for further information.');
+}
+
 // Initialize the infowindow DOM for each of the markers
 function addInfoWindow() {
 	markers.forEach(function(marker) {
@@ -123,7 +129,7 @@ function showMarkers(loc) {
 function bounceMarker(markerToBounce) {
 	var location = NM.locations().find(x => x.name == markerToBounce.title);
 	markers.forEach(function(marker) {
-		if (marker == markerToBounce && marker.getAnimation() == null) {
+		if (marker == markerToBounce && marker.getAnimation() === null) {
 			location.updateVenues(marker);
 			marker.setAnimation(google.maps.Animation.BOUNCE);
 			marker.infowindow.open(map, marker);
