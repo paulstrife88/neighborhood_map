@@ -92,7 +92,7 @@ function initMap() {
 
 // Callback function in case Google Maps fails to authenticate
 function gm_authFailure() {
-	alert('An authentication error has occured while trying to load the Google Maps API. ' +
+	alert('An authenication error has occured while trying to load the Google Maps API. ' +
 		'Please check the browser\'s JavaScript Console (F12) for further information.');
 }
 
@@ -103,7 +103,7 @@ function mapErr() {
 }
 
 // Initialize the infowindow DOM for each of the markers
-function addInfoWindow() {
+function addInfoWindow(infowindow) {
 	markers.forEach(function(marker) {
 		var location = NM.locations().find(x => x.name == marker.title);
 		marker.infowindow = new google.maps.InfoWindow({
