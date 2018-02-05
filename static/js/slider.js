@@ -13,7 +13,7 @@ function toogleMenu() {
 		for (var item of elements) {
 			item.style.display = "flex";
 		}
-		if (media.matched) {
+		if (media.matches) {
 			document.getElementById("menu").style.display = "block";
 			document.getElementById("map").style.width = "75%";
 		} else {

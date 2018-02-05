@@ -120,16 +120,18 @@ function showMarkers(loc) {
 
 // Animate a marker when it is clicked and open the infowindow of it
 // trying to update the contents with the Foursquare API
-function bounceMarker(marker) {
-	var location = NM.locations().find(x => x.name == marker.title);
-	if (marker.getAnimation() !== null) {
-		marker.setAnimation(null);
-		marker.infowindow.close();
-	} else {
-		location.updateVenues(marker);
-		marker.setAnimation(google.maps.Animation.BOUNCE);
-		marker.infowindow.open(map, marker);
-	}
+function bounceMarker(markerToBounce) {
+	var location = NM.locations().find(x => x.name == markerToBounce.title);
+	markers.forEach(function(marker) {
+		if (marker == markerToBounce && marker.getAnimation() == null) {
+			location.updateVenues(marker);
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+			marker.infowindow.open(map, marker);
+		} else {
+			marker.setAnimation(null);
+			marker.infowindow.close();
+		}
+	});
 }
 
 // Use the output received from the API call to Foursquare and format it
