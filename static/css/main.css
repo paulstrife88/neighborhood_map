@@ -13,11 +13,24 @@ body, html, #wrapper {
 	padding: 0;
 }
 
-#menu {
-	height: calc(100% - 50px);
-	width: 0%;
-	float: left;
-	background-color: #134f80;	
+@media screen and (max-width: 500px) {
+	#menu {
+		height: calc(100% - 50px);
+		width: 55%;
+		display: none;
+		float: left;
+		background-color: #134f80;	
+	}
+}
+
+@media screen and (min-width: 501px) {
+	#menu {
+		height: calc(100% - 50px);
+		width: 25%;
+		display: none;
+		float: left;
+		background-color: #134f80;	
+	}
 }
 
 #map {
