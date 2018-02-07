@@ -66,7 +66,7 @@ function NeighborhoodMap() {
 
 	self.toggleSidebar = function() {
 		self.displaySidebar(!self.displaySidebar());
-	}
+	};
 }
 
 // Show/Hide the left sidebar when the top-left icon is clicked.
