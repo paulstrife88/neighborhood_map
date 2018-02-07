@@ -27,8 +27,7 @@ function Location(location) {
 
 	// Update the venues information with the Foursquare API
 	self.updateVenues = function(marker) {
-		self.venues(getVenues(marker.position));
-		marker.infowindow.setContent(self.venues());
+		getVenues(self, marker);
 	};
 }
 
@@ -184,7 +183,7 @@ function bounceMarker(markerToBounce) {
 
 // Use the output received from the API call to Foursquare and format it
 // to be used in an HTML DOM element.
-function formatVenuesInfo(data) {
+function formatVenuesInfo(data, location) {
 	var venue = data.response.groups[0].items[0];
 	var name = venue.venue.name;
 	var category = venue.venue.categories[0].name;
@@ -202,24 +201,25 @@ function formatVenuesInfo(data) {
 	if (typeof crossStreet == 'undefined') {
 		crossStreet = '';
 	}
-	var location = address + crossStreet;
+	var fullAddress = address + crossStreet;
 	
 	var output = '<div class="info-windows">' +
 	'<h1>' + name + '</h1>' +
 	'<h2>' + category + '</h2>' +	
 	'<p>' + hours + '</p>' +
-	'<p>' + location + '</p>' +
+	'<p>' + fullAddress + '</p>' +
 	'<img src="' + photoURL + '">' +
 	'</div>';
+	location.venues(output);
 	return output;
 }
 
 // An AJAX call to the Foursquare API to get the first top pick venue information
 // for a given location
-function getVenues(location) {
+function getVenues(location, marker) {
 	var info = '';
 	$.ajax({
-	 	async: false,
+	 	//async: false,
 		type: 'GET',
 		url: 'https://api.foursquare.com/v2/venues/explore',
 		dataType: 'json',
@@ -227,24 +227,25 @@ function getVenues(location) {
 			client_id: CLIENT_ID,
 			client_secret: CLIENT_SECRET,
 			v: '20170801',
-			ll: location.lat() + ', ' + location.lng(),
+			ll: location.location.lat + ', ' + location.location.lng,
 			section: 'topPicks',
 			venuePhotos: 1,
 			limit: 1
 		},
 		success: function(data) {
-			info = formatVenuesInfo(data);
+			location.venues(formatVenuesInfo(data, location));
+			marker.infowindow.setContent(location.venues());
 		},
 		error: function(xhr, status, error) {
 			console.log('XHR: ');
-			console.log(xhr);
+			console.log(xhr.responseText);
 			console.log('Status: ');
 			console.log(status);
 			console.log('Error: ');
 			console.log(error);
 			alert('An error has occured, please check the browser console (F12)');
 			info = '<div class=\"info-windows\">Couldn\'t load the information</div>';
+			marker.infowindow.setContent(info);
 		}
 	});
-	return info;
 }
