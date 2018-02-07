@@ -37,6 +37,8 @@ function Location(location) {
 function NeighborhoodMap() {
 	var self = this;
 
+	self.displaySidebar = ko.observable(false);
+	
 	self.searchString = ko.observable('');
 	self.locations = ko.observableArray([]);
 
@@ -62,7 +64,40 @@ function NeighborhoodMap() {
 		var marker = markers.find(x => x.title == location.name);
 		bounceMarker(marker);
 	};
+
+	self.toggleSidebar = function() {
+		self.displaySidebar(!self.displaySidebar());
+	}
 }
+
+// Show/Hide the left sidebar when the top-left icon is clicked.
+// Also modify the css style to handle mobile users.
+ko.bindingHandlers.fadeSidebar = {
+    init: function(element, valueAccessor) {
+		var value = valueAccessor();
+		$(element).toggle(ko.unwrap(value));
+	},
+	update: function(element, valueAccessor) {
+		var media = window.matchMedia("(min-width: 501px)");
+		var value = valueAccessor();
+		var elements = document.getElementsByClassName("hide");
+		if (ko.unwrap(value)) {
+			for (var item of elements) {
+				item.style.display = "flex";
+			}
+			$(element).fadeIn();
+			if  (media.matches) {
+				document.getElementById("map").style.width = "75%";
+			} else {
+				document.getElementById("map").style.width = "45%";
+			}
+		} else {
+			$(element).fadeOut();
+			document.getElementById("map").style.width = "100%";
+		}
+	}
+};
+ 
 
 // Initialize Knockout
 var NM = new NeighborhoodMap();

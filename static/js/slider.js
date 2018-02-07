@@ -1,4 +1,4 @@
-// Show and hide the sidebar containeing the search bar and locations list
+// Show and hide the sidebar containing the search bar and locations list
 function toogleMenu() {
 	var media = window.matchMedia("(min-width: 501px)");
 	var elements = document.getElementsByClassName("hide");
